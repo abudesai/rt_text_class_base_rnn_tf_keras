@@ -20,7 +20,7 @@ from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau, Callbac
 from tensorflow.nn import softmax
 
 
-MODEL_NAME = "text_class_RNN_tf_keras"
+MODEL_NAME = "text_class_base_rnn_tf_keras"
 
 model_params_fname = "model_params.save"
 model_wts_fname = "model_wts.save"
@@ -89,9 +89,10 @@ class EarlyStoppingAtMinLoss(Callback):
 
 class Classifier(): 
     
-    def __init__(self, rnn_unit, vocab_size, max_seq_len, num_target_classes, 
-                 embedding_size, latent_dim, lr):
+    def __init__(self, vocab_size, max_seq_len, num_target_classes, 
+                 rnn_unit="gru", embedding_size=30, latent_dim=32, lr=5e-4, **kwargs):
         '''
+        rnn_unit: one of 'gru' or 'lstm'. Casing doesnt matter.
         V: vocabulary size
         T: length of sequences
         K: number of target classes       
@@ -135,6 +136,7 @@ class Classifier():
         x = Dense(10, activation='relu')(x)
         o = Dense(self.K)(x)
         model = Model(i, o)
+        # model.summary(); sys.exit()
         return model
     
     
@@ -148,7 +150,7 @@ class Classifier():
             early_stop_loss = 'loss'
             validation_data = None   
         
-        early_stop_callback = EarlyStopping(monitor=early_stop_loss, patience=10, min_delta=1e-4)    
+        early_stop_callback = EarlyStopping(monitor=early_stop_loss, patience=3, min_delta=1e-4)    
         
         infcost_stop_callback = InfCostStopCallback()
     

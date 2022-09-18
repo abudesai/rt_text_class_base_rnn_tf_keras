@@ -10,7 +10,7 @@
   {
     "name": "embedding_size",
     "short_desc": "Word embedding size",
-    "default": 50,
+    "default": 30,
     "type": "int",
     "search_type": "uniform",
     "range_low": 20,
@@ -20,7 +20,7 @@
   {
     "name": "latent_dim",
     "short_desc": "Latent dim size in RNN unit",
-    "default": 20,
+    "default": 32,
     "type": "int",
     "search_type": "uniform",
     "range_low": 10,
@@ -31,7 +31,7 @@
   {
     "name": "lr",
     "short_desc": "Learning rate for optimizer.",
-    "default": 1e-3,
+    "default": 5e-4,
     "type": "real",
     "range_low": 1e-6,
     "range_high": 5e-1,
