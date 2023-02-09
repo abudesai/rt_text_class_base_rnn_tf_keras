@@ -9,7 +9,7 @@ warnings.filterwarnings('ignore')
 
 import algorithm.utils as utils 
 import algorithm.model_trainer as model_trainer
-import algorithm.preprocessing.pipeline as pipeline
+import algorithm.preprocessing.preprocess as preprocess
 import algorithm.model.classifier as classifier 
 
 # Paths for inputs, model, outputs for ml_vol mounted to the container.
@@ -19,7 +19,7 @@ data_schema_path = os.path.join(prefix, 'inputs', 'data_config')
 model_path = os.path.join(prefix, 'model', 'artifacts')
 hyper_param_path = os.path.join(prefix, 'model', 'model_config')
 output_path = os.path.join(prefix, 'outputs')
-failure_path = os.path.join(output_path, 'errors', 'train_failure')
+failure_path = os.path.join(output_path, 'errors', 'train_failure.txt')
 
 
 # This algorithm has a single channel of input data called 'training'. Since we run in
@@ -42,7 +42,7 @@ def train():
         # get trained preprocessor, model, training history 
         preprocessor, model, history = model_trainer.get_trained_model(train_data, data_schema, hyper_parameters)        
         # Save the processing pipeline   
-        pipeline.save_preprocessor(preprocessor, model_path)
+        preprocess.save_preprocessor(preprocessor, model_path)
         # Save the model 
         classifier.save_model(model, model_path)  
         # Save training history

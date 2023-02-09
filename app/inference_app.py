@@ -18,7 +18,7 @@ from algorithm.model import classifier as model
 prefix = '/opt/ml_vol/'
 data_schema_path = os.path.join(prefix, 'inputs', 'data_config')
 model_path = os.path.join(prefix, 'model', 'artifacts')
-failure_path = os.path.join(prefix, 'outputs', 'errors', 'serve_failure')
+failure_path = os.path.join(prefix, 'outputs', 'errors', 'serve_failure.txt')
 
 
 # get data schema - its needed to set the prediction field name  
@@ -67,13 +67,12 @@ def infer():
 
     # Do the prediction
     try: 
-        predictions = model_server.predict(data)
-        # Convert from dataframe to CSV
-        out = io.StringIO()
-        predictions.to_csv(out, index=False)
-        result = out.getvalue()
-
-        return flask.Response(response=result, status=200, mimetype="text/csv")
+        predictions_response = model_server.predict_to_json(data)
+        return flask.Response(
+            response=json.dumps({"predictions": predictions_response}),
+            status=200,
+            mimetype="application/json",
+        )
 
     except Exception as err:
         # Write out an error file. This will be returned as the failureReason to the client.

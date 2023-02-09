@@ -8,7 +8,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
 
 import algorithm.preprocessing.preprocess as preprocess
-import algorithm.preprocessing.pipeline as pp_pipe
 import algorithm.utils as utils
 from algorithm.model.classifier import Classifier, get_data_based_model_params
 from algorithm.utils import get_model_config
